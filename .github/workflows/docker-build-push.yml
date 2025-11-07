@@ -48,7 +48,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: arsalaan272/frontend:cyberapp
+          tags: arsalaan272/frontend:v10
 
       # Step 7: Verify image uploaded
       - name: Verify pushed image
