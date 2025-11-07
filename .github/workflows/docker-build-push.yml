@@ -52,4 +52,4 @@ jobs:
 
       # Step 7: Verify image uploaded
       - name: Verify pushed image
-        run: docker pull arsalaan272/frontend:cyberapp
+        run: docker pull arsalaan272/frontend:v10
