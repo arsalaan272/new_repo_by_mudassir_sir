@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON - Cyberpunk Portfolio</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --neon-cyan: #00ffff;
+    --neon-pink: #ff0080;
+    --neon-green: #00ff41;
+    --dark-bg: #0a0a0a;
+    --darker-bg: #050505;
+    --terminal-bg: rgba(0, 0, 0, 0.8);
+    --text-primary: #ffffff;
+    --text-secondary: #00ffff;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: var(--dark-bg);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Matrix Background */
+#matrix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+/* Glitch Effect */
+.glitch {
+    position: relative;
+    animation: glitch 2s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    animation: glitch-1 0.3s infinite;
+    color: var(--neon-cyan);
+    z-index: -1;
+}
+
+.glitch::after {
+    animation: glitch-2 0.3s infinite;
+    color: var(--neon-pink);
+    z-index: -2;
+}
+
+@keyframes glitch {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+}
+
+@keyframes glitch-1 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(2px, -2px); }
+    40% { transform: translate(-2px, 2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(2px, 2px); }
+}
+
+@keyframes glitch-2 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, -2px); }
+    40% { transform: translate(2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(-2px, 2px); }
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 20px 0;
+    background: var(--terminal-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--neon-cyan);
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: bold;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--neon-cyan);
+    transition: width 0.3s ease;
+    box-shadow: 0 0 5px var(--neon-cyan);
+}
+
+.nav-link:hover::before {
+    width: 100%;
+}
+
+.nav-link:hover {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 20px;
+}
+
+.hero-content {
+    text-align: center;
+    z-index: 2;
+}
+
+.terminal {
+    background: var(--terminal-bg);
+    border: 1px solid var(--neon-cyan);
+    border-radius: 5px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.terminal-header {
+    background: var(--darker-bg);
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--neon-cyan);
+}
+
+.terminal-title {
+    color: var(--neon-cyan);
+    font-size: 14px;
+}
+
+.terminal-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.minimize { background: var(--neon-green); }
+.maximize { background: var(--neon-cyan); }
+.close { background: var(--neon-pink); }
+
+.terminal-body {
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+}
+
+.terminal-line {
+    margin-bottom: 10px;
+}
+
+.prompt {
+    color: var(--neon-green);
+}
+
+.command {
+    color: var(--text-primary);
+    margin-left: 10px;
+}
+
+.terminal-output {
+    color: var(--neon-cyan);
+    margin-bottom: 15px;
+}
+
+.cyber-name {
+    font-size: 32px;
+    font-weight: bold;
+    display: block;
+    margin: 10px 0;
+}
+
+.skills-output {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-item {
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--neon-cyan);
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+/* Typewriter Effect */
+.typewriter {
+    overflow: hidden;
+    border-right: 2px solid var(--neon-cyan);
+    white-space: nowrap;
+    animation: typing 3s steps(10), blink 0.5s step-end infinite alternate;
+}
+
+.typewriter-delay {
+    overflow: hidden;
+    border-right: 2px solid var(--neon-cyan);
+    white-space: nowrap;
+    animation: typing-delay 3s steps(15) 2s, blink 0.5s step-end infinite alternate;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes typing-delay {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+/* CTA Button */
+.cta-section {
+    margin-top: 40px;
+}
+
+.cyber-button {
+    background: transparent;
+    border: 2px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    padding: 15px 30px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.cyber-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.cyber-button:hover::before {
+    left: 100%;
+}
+
+.cyber-button:hover {
+    box-shadow: 0 0 20px var(--neon-cyan);
+    text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+.btn-glitch {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    color: var(--neon-pink);
+}
+
+.cyber-button:hover .btn-glitch {
+    animation: btn-glitch 0.3s ease-in-out;
+}
+
+@keyframes btn-glitch {
+    0%, 100% { opacity: 0; transform: translate(0); }
+    50% { opacity: 1; transform: translate(2px, -2px); }
+}
+
+/* HUD Elements */
+.hud-elements {
+    position: absolute;
+    top: 50%;
+    right: 50px;
+    transform: translateY(-50%);
+}
+
+.hud-circle {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.hud-circle svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.progress-bg {
+    fill: none;
+    stroke: rgba(0, 255, 255, 0.1);
+    stroke-width: 2;
+}
+
+.progress-bar {
+    fill: none;
+    stroke: var(--neon-cyan);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 283;
+    stroke-dashoffset: calc(283 - (283 * var(--progress)) / 100);
+    animation: progress-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes progress-glow {
+    from { filter: drop-shadow(0 0 5px var(--neon-cyan)); }
+    to { filter: drop-shadow(0 0 15px var(--neon-cyan)); }
+}
+
+.hud-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    color: var(--neon-cyan);
+    text-align: center;
+}
+
+.data-stream {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stream-line {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+    animation: stream 2s linear infinite;
+}
+
+.stream-line:nth-child(2) { animation-delay: 0.5s; }
+.stream-line:nth-child(3) { animation-delay: 1s; }
+
+@keyframes stream {
+    0% { transform: translateX(-60px); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateX(60px); opacity: 0; }
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 48px;
+    color: var(--neon-cyan);
+    text-align: center;
+    margin-bottom: 60px;
+    text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* About Section */
+.about {
+    padding: 100px 0;
+    background: linear-gradient(rgba(0, 255, 255, 0.05), transparent);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.data-block {
+    margin-bottom: 40px;
+}
+
+.data-header {
+    color: var(--neon-green);
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px var(--neon-green);
+}
+
+.cyber-text {
+    line-height: 1.6;
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.skill-chip {
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--neon-cyan);
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.skill-chip:hover {
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.about-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hologram {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    border: 2px solid var(--neon-cyan);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.1), transparent);
+    animation: holo-rotate 10s linear infinite;
+}
+
+@keyframes holo-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.holo-face {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink));
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.scan-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 255, 0.1) 2px,
+        rgba(0, 255, 255, 0.1) 4px
+    );
+    border-radius: 50%;
+    animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+.data-points {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.data-point {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--neon-green);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--neon-green);
+    animation: blink 1s ease-in-out infinite;
+}
+
+.data-point:nth-child(1) {
+    top: 20%;
+    left: 30%;
+    animation-delay: 0s;
+}
+
+.data-point:nth-child(2) {
+    top: 40%;
+    right: 25%;
+    animation-delay: 0.5s;
+}
+
+.data-point:nth-child(3) {
+    bottom: 30%;
+    left: 40%;
+    animation-delay: 1s;
+}
+
+.data-point:nth-child(4) {
+    bottom: 20%;
+    right: 35%;
+    animation-delay: 1.5s;
+}
+
+/* Projects Section */
+.projects {
+    padding: 100px 0;
+    background: var(--darker-bg);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+}
+
+.project-card {
+    background: var(--terminal-bg);
+    border: 1px solid var(--neon-cyan);
+    border-radius: 5px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 128, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.project-card:hover::before {
+    opacity: 1;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+}
+
+.project-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    position: relative;
+    z-index: 2;
+}
+
+.project-title {
+    color: var(--neon-cyan);
+    font-size: 18px;
+    text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+.project-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: blink 1s ease-in-out infinite;
+}
+
+.status-indicator.active {
+    background: var(--neon-green);
+    box-shadow: 0 0 5px var(--neon-green);
+}
+
+.status-indicator.development {
+    background: var(--neon-pink);
+    box-shadow: 0 0
+
+
+</style>
+</head>
+<body>
+    <!-- Matrix Background -->
+    <canvas id="matrix"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo glitch" data-text="NEON">NEON</div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">_HOME</a>
+                <a href="#about" class="nav-link">_ABOUT</a>
+                <a href="#projects" class="nav-link">_WORK</a>
+                <a href="#contact" class="nav-link">_CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span class="terminal-title">neural_interface.exe</span>
+                    <div class="terminal-controls">
+                        <span class="control minimize"></span>
+                        <span class="control maximize"></span>
+                        <span class="control close"></span>
+                    </div>
+                </div>
+                <div class="terminal-body">
+                    <p class="terminal-line">
+                        <span class="prompt">guest@portfolio:~$</span>
+                        <span class="command typewriter">whoami</span>
+                    </p>
+                    <p class="terminal-output">
+                        <span class="cyber-name glitch" data-text="ALEX CYBER">ALEX CYBER</span>
+                    </p>
+                    <p class="terminal-line">
+                        <span class="prompt">guest@portfolio:~$</span>
+                        <span class="command typewriter-delay">cat skills.txt</span>
+                    </p>
+                    <p class="terminal-output skills-output">
+                        <span class="skill-item">[FRONTEND_DEV]</span>
+                        <span class="skill-item">[NEURAL_NETWORKS]</span>
+                        <span class="skill-item">[CYBER_SECURITY]</span>
+                    </p>
+                </div>
+            </div>
+            <div class="cta-section">
+                <button class="cyber-button" id="initiate-btn">
+                    <span class="btn-text">INITIATE CONNECTION</span>
+                    <span class="btn-glitch">INITIATE CONNECTION</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Floating HUD Elements -->
+        <div class="hud-elements">
+            <div class="hud-circle" data-value="87">
+                <svg viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" class="progress-bg"></circle>
+                    <circle cx="50" cy="50" r="45" class="progress-bar" style="--progress: 87"></circle>
+                </svg>
+                <span class="hud-label">NEURAL SYNC</span>
+            </div>
+            <div class="data-stream">
+                <div class="stream-line"></div>
+                <div class="stream-line"></div>
+                <div class="stream-line"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title glitch" data-text="ABOUT_ME.EXE">ABOUT_ME.EXE</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <div class="data-block">
+                        <h3 class="data-header">&gt; IDENTITY_MATRIX</h3>
+                        <p class="cyber-text">I am a digital architect navigating the intersection of code and consciousness. My neural pathways are optimized for creating immersive digital experiences that transcend the boundaries between human and machine.</p>
+                    </div>
+                    <div class="data-block">
+                        <h3 class="data-header">&gt; SKILL_ARRAY</h3>
+                        <div class="skills-grid">
+                            <div class="skill-chip">REACT.JS</div>
+                            <div class="skill-chip">THREE.JS</div>
+                            <div class="skill-chip">AI/ML</div>
+                            <div class="skill-chip">BLOCKCHAIN</div>
+                            <div class="skill-chip">CYBERSEC</div>
+                            <div class="skill-chip">NEURAL_AI</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="hologram">
+                        <div class="holo-face"></div>
+                        <div class="scan-lines"></div>
+                        <div class="data-points">
+                            <span class="data-point"></span>
+                            <span class="data-point"></span>
+                            <span class="data-point"></span>
+                            <span class="data-point"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title glitch" data-text="NEURAL_PROJECTS">NEURAL_PROJECTS</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">QUANTUM_INTERFACE</h3>
+                        <div class="project-status">
+                            <span class="status-indicator active"></span>
+                            <span class="status-text">ACTIVE</span>
+                        </div>
+                    </div>
+                    <div class="project-preview">
+                        <div class="preview-screen">
+                            <div class="screen-content">
+                                <div class="code-rain"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <p class="project-desc">A quantum-enhanced user interface that adapts to neural patterns and predicts user intentions.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">QUANTUM.JS</span>
+                            <span class="tech-tag">NEURAL.AI</span>
+                            <span class="tech-tag">BLOCKCHAIN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">CYBER_DEFENSE</h3>
+                        <div class="project-status">
+                            <span class="status-indicator active"></span>
+                            <span class="status-text">ACTIVE</span>
+                        </div>
+                    </div>
+                    <div class="project-preview">
+                        <div class="preview-screen">
+                            <div class="screen-content">
+                                <div class="security-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <p class="project-desc">Advanced cybersecurity platform with AI-powered threat detection and neural network analysis.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">PYTHON</span>
+                            <span class="tech-tag">TENSORFLOW</span>
+                            <span class="tech-tag">DOCKER</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">HOLO_CREATOR</h3>
+                        <div class="project-status">
+                            <span class="status-indicator development"></span>
+                            <span class="status-text">BETA</span>
+                        </div>
+                    </div>
+                    <div class="project-preview">
+                        <div class="preview-screen">
+                            <div class="screen-content">
+                                <div class="holographic-display"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <p class="project-desc">Revolutionary holographic content creation tool powered by machine learning algorithms.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">THREE.JS</span>
+                            <span class="tech-tag">WEBGL</span>
+                            <span class="tech-tag">AR/VR</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title glitch" data-text="ESTABLISH_LINK">ESTABLISH_LINK</h2>
+            <div class="contact-interface">
+                <div class="contact-terminal">
+                    <div class="terminal-header">
+                        <span class="terminal-title">secure_channel.exe</span>
+                    </div>
+                    <div class="terminal-body">
+                        <p class="terminal-line">
+                            <span class="prompt">root@secure:~#</span>
+                            <span class="command">initiate secure connection...</span>
+                        </p>
+                        <p class="terminal-output">
+                            <span class="success">[SUCCESS] Neural link established</span>
+                        </p>
+                        <p class="terminal-output">
+                            <span class="info">[INFO] Available communication channels:</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="contact-methods">
+                    <a href="mailto:alex@cyber.net" class="contact-method">
+                        <span class="method-icon">📧</span>
+                        <span class="method-label">NEURAL_MAIL</span>
+                        <span class="method-address">alex@cyber.net</span>
+                    </a>
+                    <a href="#" class="contact-method">
+                        <span class="method-icon">🔗</span>
+                        <span class="method-label">LINKEDIN_NODE</span>
+                        <span class="method-address">linkedin.com/in/alexcyber</span>
+                    </a>
+                    <a href="#" class="contact-method">
+                        <span class="method-icon">🐙</span>
+                        <span class="method-label">CODE_REPO</span>
+                        <span class="method-address">github.com/alexcyber</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
