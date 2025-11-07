@@ -15,10 +15,8 @@ jobs:
 
       - name: Create Dockerfile
         run: |
-          echo "FROM nginx" > Dockerfile
-          echo "COPY index.html /usr/share/nginx/html" >> Dockerfile
-          echo "EXPOSE 80" >> Dockerfile
-          echo "CMD ['nginx','-g','daemon off;']" >> Dockerfile
+          echo "FROM nginx:alpine" > Dockerfile
+          echo "COPY index.html /usr/share/nginx/html/index.html" >> Dockerfile
 
       - name: Show created Dockerfile
         run: cat Dockerfile
