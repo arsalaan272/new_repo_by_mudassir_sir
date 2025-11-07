@@ -15,8 +15,13 @@ jobs:
 
       - name: Create Dockerfile
         run: |
-          echo "FROM nginx:alpine" > Dockerfile
-          echo "COPY index.html /usr/share/nginx/html/index.html" >> Dockerfile
+         cat <<'EOF' > Dockerfile
+         FROM nginx:alpine
+         RUN rm -rf /usr/share/nginx/html/*
+         COPY index.html /usr/share/nginx/html/
+         EXPOSE 80
+         CMD ["nginx", "-g", "daemon off;"]
+         EOF
 
       - name: Show created Dockerfile
         run: cat Dockerfile
